@@ -1,29 +1,46 @@
-"use client"
-import { useOptimistic } from "react";
-import { Card } from "@/components/ui/card";
-import { cn, formatCurrency } from "@/lib/utils";
-import { Transaction } from "../types";
+"use client";
 
-export function TransactionList({ initialTransactions }: { initialTransactions: Transaction[] }) {
-  const [optimisticTxs, addOptimistic] = useOptimistic(
-    initialTransactions,
-    (state, newTx: Transaction) => [...state, { ...newTx, pending: true }]
-  );
+import { Trash2 } from "lucide-react";
+import { deleteTransactionAction } from "../actions";
+import { cn } from "@/lib/utils"; // Importação que faltava
 
+interface TransactionListProps {
+  initialTransactions: any[];
+}
+
+export function TransactionList({ initialTransactions }: TransactionListProps) {
   return (
-    <Card className="p-6">
-      <h3 className="text-lg font-bold mb-4">Últimas Transações</h3>
-      <div className="space-y-4">
-        {optimisticTxs.map((tx, i) => (
-          <div key={tx.id || i} className={cn("flex justify-between border-b pb-2", tx.pending && "opacity-50")}>
-            <div>
-              <p className="font-medium">{tx.description}</p>
-              <p className="text-xs text-slate-500">{tx.category}</p>
-            </div>
-            <p className="font-bold">{formatCurrency(tx.amount)}</p>
-          </div>
-        ))}
-      </div>
-    </Card>
+    <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+      <table className="w-full text-left border-collapse">
+        <thead className="bg-slate-50 border-b border-slate-200">
+          <tr>
+            <th className="p-4 font-semibold text-xs uppercase tracking-wider text-slate-500">Descrição</th>
+            <th className="p-4 font-semibold text-xs uppercase tracking-wider text-slate-500 text-right">Valor</th>
+            <th className="p-4 font-semibold text-xs uppercase tracking-wider text-slate-500 text-center">Ação</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-slate-100">
+          {initialTransactions.map((t) => (
+            <tr key={t.id} className="hover:bg-slate-50 transition-colors">
+              <td className="p-4 text-sm text-slate-700 font-medium">{t.description}</td>
+              <td className={cn(
+                "p-4 text-sm font-bold text-right", 
+                t.amount > 0 ? "text-emerald-600" : "text-rose-600"
+              )}>
+                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(t.amount)}
+              </td>
+              <td className="p-4 text-center">
+                <button 
+                  onClick={() => deleteTransactionAction(t.id)}
+                  className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

@@ -1,18 +1,30 @@
-"use server"
+"use server";
+
 import { revalidatePath } from "next/cache";
-import { transactionSchema } from "./schemas";
 
-export async function createTransactionAction(prevState: any, formData: FormData) {
-  const data = Object.fromEntries(formData);
-  const validated = transactionSchema.safeParse(data);
+// Tipagem para o estado do formulário
+export type FormState = {
+  success: boolean;
+  message: string;
+} | null;
 
-  if (!validated.success) {
-    return { errors: validated.error.flatten().fieldErrors };
-  }
+export async function createTransactionAction(prevState: FormState, formData: FormData): Promise<FormState> {
+  const description = formData.get("description");
+  const amount = formData.get("amount");
 
-  // Simula gravação no DB
+  console.log("Processando:", description, amount);
+
+  // Simulação de delay de rede
   await new Promise((res) => setTimeout(res, 1000));
-  
+
   revalidatePath("/dashboard");
-  return { success: true, errors: {} };
+  revalidatePath("/dashboard/transactions");
+
+  return { success: true, message: "Transação criada!" };
+}
+
+export async function deleteTransactionAction(id: string) {
+  console.log("Deletando:", id);
+  // Aqui futuramente entrará a chamada ao banco de dados
+  revalidatePath("/dashboard/transactions");
 }
