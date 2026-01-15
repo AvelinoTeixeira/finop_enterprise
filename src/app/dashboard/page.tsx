@@ -1,23 +1,28 @@
-import { Suspense } from "react";
 import { TransactionList } from "@/features/transactions/components/transaction-list";
-import { TransactionForm } from "@/features/transactions/components/transaction-form";
-import { ExpenseChart } from "@/features/analytics/components/expense-chart";
 import { getTransactions } from "@/features/transactions/services";
-
-
+import { ExpenseChart } from "@/features/analytics/components/expense-chart";
 
 export default async function DashboardPage() {
   const transactions = await getTransactions();
 
   return (
-    <div className="grid gap-6 lg:grid-cols-3">
-      <div className="lg:col-span-2 space-y-6">
-        <ExpenseChart />
-        <Suspense fallback={<p>Carregando transações...</p>}>
-          <TransactionList initialTransactions={transactions} />
-        </Suspense>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto">
+      {/* Cabeçalho */}
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
+        <p className="text-slate-500 text-sm">Visão geral do seu fluxo financeiro.</p>
       </div>
-      <TransactionForm />
+
+      {/* Seção do Gráfico - Agora ocupa a largura total */}
+      <div className="w-full">
+        <ExpenseChart />
+      </div>
+
+      {/* Seção da Lista e Novo Formulário Horizontal */}
+      <div className="w-full">
+        <TransactionList initialTransactions={transactions} />
+      </div>
+
     </div>
   );
 }
