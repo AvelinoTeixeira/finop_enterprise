@@ -4,6 +4,8 @@ import { TransactionForm } from "@/features/transactions/components/transaction-
 import { ExpenseChart } from "@/features/analytics/components/expense-chart";
 import { getTransactions } from "@/features/transactions/services";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const transactions = await getTransactions();
 
