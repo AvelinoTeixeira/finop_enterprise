@@ -33,4 +33,4 @@ Este projeto não é apenas um CRUD. Ele implementa conceitos avançados de enge
 ### Instalação
 1. Clone o repositório:
    ```bash
-   git clone [https://github.com/seu-usuario/finop-enterprise.git](https://github.com/seu-usuario/finop-enterprise.git)
+   git clone [https://github.com/AvelinoTeixeira/finop_enterprise.git](https://github.com/AvelinoTeixeira/finop_enterprise.git)
