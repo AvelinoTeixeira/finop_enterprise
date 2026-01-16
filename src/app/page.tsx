@@ -29,7 +29,11 @@ export default function LandingPage() {
                 Acessar Dashboard <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="px-8 font-semibold" asChild>
+            <Button 
+  size="lg" 
+  asChild
+  className="px-8 font-semibold bg-[#020617] text-white border border-[#020617] hover:bg-white hover:text-[#020617] dark:bg-white dark:text-[#020617] dark:hover:bg-[#020617] dark:hover:text-white transition-all duration-300 shadow-custom"
+>
   <a href="https://github.com/AvelinoTeixeira/finop_enterprise" target="_blank" rel="noopener noreferrer">
     Ver Documentação
   </a>

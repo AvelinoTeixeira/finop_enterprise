@@ -1,23 +1,42 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: oklch(100% 0 0);
-  --color-foreground: oklch(14.5% 0.018 256);
-  --color-primary: oklch(58.8% 0.161 259);
-  --color-border: oklch(92.2% 0.011 230);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
 }
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
-  --border: 214.3 31.8% 91.4%;
-  --radius: 0.5rem;
+  --background: #ffffff;
+  --foreground: #020617;
+  
+  /* Borda Modo Claro: Preto com apenas 5% de opacidade (Quase invisível) */
+  --border: rgba(0, 0, 0, 0.05);
+  
+  /* Variável para os Títulos que configuramos */
+  --logo-color: #020617;
 }
 
-/* O Tailwind 4 não precisa de @apply no body da mesma forma, 
-   mas você pode usar classes padrão diretamente */
-body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+.dark {
+  --background: #020617;
+  --foreground: #ffffff;
+  
+  /* Borda Modo Escuro: Branco com apenas 7% de opacidade (Sutil no fundo escuro) */
+  --border: rgba(255, 255, 255, 0.07);
+  
+  /* Variável para os Títulos no Dark */
+  --logo-color: #ffffff;
+}
+
+@layer base {
+  * {
+    /* Garante que todas as bordas do projeto usem a cor da variável por padrão */
+    border-color: var(--border);
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
 }

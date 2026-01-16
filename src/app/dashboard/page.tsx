@@ -9,8 +9,17 @@ export default async function DashboardPage() {
     <div className="p-6 space-y-6 max-w-7xl mx-auto">
       {/* Cabeçalho */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
-        <p className="text-slate-500 text-sm">Visão geral do seu fluxo financeiro.</p>
+        {/* Título com a cor exata pedida e peso bold equilibrado */}
+        <h1
+          style={{ color: "var(--logo-color)" }}
+          className="text-2xl font-bold transition-colors"
+        >
+          Dashboard
+        </h1>
+        {/* Subtítulo ajustado para melhor legibilidade (a11y) */}
+        <p className="text-slate-600 dark:text-slate-400 text-sm transition-colors">
+          Visão geral do seu fluxo financeiro.
+        </p>
       </div>
 
       {/* Seção do Gráfico - Agora ocupa a largura total */}
@@ -22,7 +31,6 @@ export default async function DashboardPage() {
       <div className="w-full">
         <TransactionList initialTransactions={transactions} />
       </div>
-
     </div>
   );
 }

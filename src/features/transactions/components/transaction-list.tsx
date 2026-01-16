@@ -11,7 +11,6 @@ export function TransactionList({ initialTransactions }: { initialTransactions: 
   const [desc, setDesc] = useState("");
   const [val, setVal] = useState("");
 
-  // Carrega do LocalStorage ao abrir a página
   useEffect(() => {
     const saved = localStorage.getItem("finop_transactions");
     if (saved) {
@@ -21,7 +20,6 @@ export function TransactionList({ initialTransactions }: { initialTransactions: 
     }
   }, [initialTransactions]);
 
-  // Salva no LocalStorage sempre que a lista mudar
   const saveAndSet = (newList: any[]) => {
     setTransactions(newList);
     localStorage.setItem("finop_transactions", JSON.stringify(newList));
@@ -49,53 +47,62 @@ export function TransactionList({ initialTransactions }: { initialTransactions: 
 
   return (
     <div className="space-y-6">
-      {/* Formulário integrado para garantir funcionamento imediato */}
-      <div className="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
-        <h3 className="font-bold mb-4 flex items-center gap-2">
+      {/* Formulário - Background e bordas variáveis */}
+      <div className="p-6 bg-card border border-border rounded-xl shadow-sm">
+        <h3 className="font-bold mb-4 flex items-center gap-2 text-foreground">
           <PlusCircle size={18} className="text-blue-600" />
           Nova Transação
         </h3>
+        {/* Inputs com cores contrastantes */}
         <form onSubmit={handleAdd} className="flex flex-col md:flex-row gap-4">
           <Input 
+            className="bg-background text-foreground border-border placeholder:text-muted"
             placeholder="Descrição" 
             value={desc} 
             onChange={(e) => setDesc(e.target.value)} 
           />
           <Input 
+            className="bg-background text-foreground border-border placeholder:text-muted"
             type="number" 
-            placeholder="Valor (ex: 100 ou -50)" 
+            placeholder="Valor" 
             value={val} 
             onChange={(e) => setVal(e.target.value)} 
           />
-          <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold">
             Adicionar
           </Button>
         </form>
       </div>
 
-      {/* Lista de Transações */}
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-        <table className="w-full text-left">
-          <thead className="bg-slate-50 border-b border-slate-200">
-            <tr>
-              <th className="p-4 text-xs font-semibold uppercase text-slate-500">Descrição</th>
-              <th className="p-4 text-xs font-semibold uppercase text-slate-500 text-right">Valor</th>
-              <th className="p-4 text-xs font-semibold uppercase text-slate-500 text-center">Ação</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
+      {/* Tabela de Transações */}
+      <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
+        <table className="w-full text-left border-collapse">
+          <thead className="bg-slate-50 dark:bg-slate-900/50 border-b border-border">
+  <tr>
+    <th className="p-4 text-sm font-black uppercase tracking-widest text-foreground">
+      Descrição
+    </th>
+    <th className="p-4 text-sm font-black uppercase tracking-widest text-foreground text-right">
+      Valor
+    </th>
+    <th className="p-4 text-sm font-black uppercase tracking-widest text-foreground text-center">
+      Ação
+    </th>
+  </tr>
+</thead>
+          <tbody className="divide-y divide-border">
             {transactions.map((t) => (
-              <tr key={t.id} className="hover:bg-slate-50 transition-colors">
-                <td className="p-4 text-sm font-medium text-slate-700">{t.description}</td>
+              <tr key={t.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+                <td className="p-4 text-sm font-medium text-foreground">{t.description}</td>
                 <td className={cn(
                   "p-4 text-sm font-bold text-right",
-                  t.amount > 0 ? "text-emerald-600" : "text-rose-600"
+                  t.amount > 0 ? "text-emerald-700 dark:text-emerald-400" : "text-rose-700 dark:text-rose-400"
                 )}>
                   {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(t.amount)}
                 </td>
                 <td className="p-4 text-center">
-                  <button onClick={() => handleDelete(t.id)} className="text-slate-400 hover:text-rose-500 p-2">
-                    <Trash2 size={16} />
+                  <button onClick={() => handleDelete(t.id)} className="text-muted hover:text-rose-600 p-2 transition-colors">
+                    <Trash2 size={18} />
                   </button>
                 </td>
               </tr>
